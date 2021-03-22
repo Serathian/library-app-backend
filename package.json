@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Serathian/GraphQL-fullstack/issues"
   },
-  "homepage": "https://github.com/Serathian/GraphQL-fullstack#readme"
+  "homepage": "https://github.com/Serathian/GraphQL-fullstack#readme",
+  "dependencies": {
+    "apollo-server": "^2.21.2",
+    "graphql": "^15.5.0"
+  }
 }
