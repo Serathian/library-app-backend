@@ -1,0 +1,19 @@
+{
+  "name": "graphql-fullstack",
+  "version": "1.0.0",
+  "description": "graphql fullstack project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Serathian/GraphQL-fullstack.git"
+  },
+  "author": "Jake",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Serathian/GraphQL-fullstack/issues"
+  },
+  "homepage": "https://github.com/Serathian/GraphQL-fullstack#readme"
+}
