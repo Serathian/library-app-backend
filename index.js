@@ -12,7 +12,11 @@ const jwt = require('jsonwebtoken')
 const { collectFields } = require('graphql/execution/execute')
 const { PubSub } = require('apollo-server')
 const pubsub = new PubSub()
+<<<<<<< HEAD
 const DataLoader = require('dataloader')
+=======
+
+>>>>>>> fda763d69845459ca276a50b3b12880840b27039
 const MONGODB_URI =
   'mongodb+srv://fullstack:fullstack@cluster0.nbmdu.mongodb.net/graphQL?retryWrites=true&w=majority'
 
@@ -207,6 +211,7 @@ const resolvers = {
       subscribe: () => pubsub.asyncIterator(['BOOK_ADDED']),
     },
   },
+<<<<<<< HEAD
 }
 
 const batchAuthors = async (keys) => {
@@ -220,6 +225,8 @@ const batchAuthors = async (keys) => {
     authors.find((author) => author.id == key)
   )
   return mappedKeys
+=======
+>>>>>>> fda763d69845459ca276a50b3b12880840b27039
 }
 
 const server = new ApolloServer({
