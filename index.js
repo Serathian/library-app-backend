@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken')
 const { collectFields } = require('graphql/execution/execute')
 const { PubSub } = require('apollo-server')
 const pubsub = new PubSub()
-
+const DataLoader = require('dataloader')
 const MONGODB_URI =
   'mongodb+srv://fullstack:fullstack@cluster0.nbmdu.mongodb.net/graphQL?retryWrites=true&w=majority'
 
@@ -33,6 +33,8 @@ mongoose
   .catch((error) => {
     console.log('error connecting to MongoDb', error.message)
   })
+
+mongoose.set('debug', true)
 
 const typeDefs = gql`
   type Book {
@@ -110,9 +112,8 @@ const resolvers = {
   },
 
   Book: {
-    author: (root) => {
-      const response = Author.findById(root.author)
-      return response
+    author: async ({ author }, _args, { loaders }) => {
+      return await loaders.author.load(author)
     },
   },
 
@@ -208,6 +209,19 @@ const resolvers = {
   },
 }
 
+const batchAuthors = async (keys) => {
+  const authors = await Author.find({
+    _id: {
+      $in: keys,
+    },
+  })
+
+  const mappedKeys = keys.map((key) =>
+    authors.find((author) => author.id == key)
+  )
+  return mappedKeys
+}
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -216,7 +230,11 @@ const server = new ApolloServer({
     if (auth && auth.toLocaleLowerCase().startsWith('bearer ')) {
       const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
       const currentUser = await User.findById(decodedToken.id)
-      return { currentUser }
+
+      return {
+        currentUser,
+        loaders: { author: new DataLoader((keys) => batchAuthors(keys)) },
+      }
     }
   },
 })
